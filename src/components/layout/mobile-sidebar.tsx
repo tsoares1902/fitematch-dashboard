@@ -53,21 +53,46 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
           {DASHBOARD_MENU.map((item) => {
             const Icon = item.icon
             const isActive =
-              pathname === item.href || pathname.startsWith(`${item.href}/`)
+              pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(`${item.href}/`))
 
             return (
-              <Link
-                className={cn(
-                  'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 transition hover:bg-slate-900 hover:text-slate-100',
-                  isActive && 'bg-slate-900 text-green-300',
+              <div key={item.href} className="space-y-1">
+                <Link
+                  className={cn(
+                    'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 transition hover:bg-slate-900 hover:text-slate-100',
+                    isActive && 'bg-slate-900 text-green-300',
+                  )}
+                  href={item.href}
+                  onClick={onClose}
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.label}
+                </Link>
+
+                {item.children && (
+                  <div className="ml-4 space-y-1 border-l border-slate-800 pl-4">
+                    {item.children.map((child) => {
+                      const ChildIcon = child.icon
+                      const isChildActive = pathname === child.href
+
+                      return (
+                        <Link
+                          className={cn(
+                            'flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium text-slate-500 transition hover:text-slate-100',
+                            isChildActive && 'text-green-300',
+                          )}
+                          href={child.href}
+                          key={child.href}
+                          onClick={onClose}
+                        >
+                          <ChildIcon className="h-3.5 w-3.5" />
+                          {child.label}
+                        </Link>
+                      )
+                    })}
+                  </div>
                 )}
-                href={item.href}
-                key={item.href}
-                onClick={onClose}
-              >
-                <Icon className="h-4 w-4" />
-                {item.label}
-              </Link>
+              </div>
             )
           })}
         </nav>

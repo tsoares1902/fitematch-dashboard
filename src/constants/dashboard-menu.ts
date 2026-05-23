@@ -11,10 +11,22 @@ import {
 import {
   FaBuilding,
 } from 'react-icons/fa'
+import { IconType } from 'react-icons'
 
 import { ROUTES } from './routes'
 
-export const DASHBOARD_MENU = [
+export type MenuItem = {
+  label: string
+  href: string
+  icon: IconType
+  children?: {
+    label: string
+    href: string
+    icon: IconType
+  }[]
+}
+
+export const DASHBOARD_MENU: MenuItem[] = [
   {
     label: 'Dashboard',
     href: ROUTES.dashboard.home,
@@ -29,31 +41,30 @@ export const DASHBOARD_MENU = [
     label: 'Companies',
     href: ROUTES.dashboard.companies,
     icon: FaBuilding,
+    children: [
+      {
+        label: 'Company approvals',
+        href: ROUTES.dashboard.approvals.companies,
+        icon: FiCheckSquare,
+      },
+    ],
   },
   {
     label: 'Jobs',
     href: ROUTES.dashboard.jobs,
     icon: FiBriefcase,
+    children: [
+      {
+        label: 'Job approvals',
+        href: ROUTES.dashboard.approvals.jobs,
+        icon: FiCheckSquare,
+      },
+    ],
   },
   {
     label: 'Applications',
     href: ROUTES.dashboard.applications,
     icon: FiFileText,
-  },
-  {
-    label: 'Company approvals',
-    href: ROUTES.dashboard.approvals.companies,
-    icon: FiCheckSquare,
-  },
-  {
-    label: 'Job approvals',
-    href: ROUTES.dashboard.approvals.jobs,
-    icon: FiCheckSquare,
-  },
-  {
-    label: 'Email templates',
-    href: ROUTES.dashboard.emailTemplates,
-    icon: FiMail,
   },
   {
     label: 'Profile',
@@ -64,5 +75,12 @@ export const DASHBOARD_MENU = [
     label: 'Settings',
     href: ROUTES.dashboard.settings,
     icon: FiSettings,
+    children: [
+      {
+        label: 'Email templates',
+        href: ROUTES.dashboard.emailTemplates,
+        icon: FiMail,
+      },
+    ],
   },
-] as const
+]
